@@ -114,6 +114,11 @@ menu_json = {
     ]
 }
 
+server_internal_error_data = {
+    "code": "500",
+    "message": "Server internal error."
+}
+
 
 @app.route("/api/v1/user/login", methods=['POST'])
 def login():
@@ -126,37 +131,40 @@ def login():
         :return
         Success : http code 200
         {
-            "code": "AUTH200",
+            "code": "200",
             "message": "login success",
             "access_token": "3b6754f00bb0063071c5b71ce2b56b4ed0ce56a63493e785bea85b74c41ce200"
         }
 
         Fail : http code 401
         {
-            "code": "AUTH401",
+            "code": "401",
             "message": "login fail"
         }
     """
-    raw_data = request.get_data(as_text=True)
-    data = json.loads(raw_data)
-    username = data.get("authRequest").get("userName")
-    password = data.get("authRequest").get("password")
+    try:
+        raw_data = request.get_data(as_text=True)
+        data = json.loads(raw_data)
+        username = data.get("authRequest").get("userName")
+        password = data.get("authRequest").get("password")
 
-    if username not in user_token_dic.keys() or password != 'pwd':
-        print('Username or password error!')
-        login_fail_resp_data = {
-            "code": "AUTH401",
-            "message": "login fail"
+        if username not in user_token_dic.keys() or password != 'pwd':
+            print('Username or password error!')
+            login_fail_resp_data = {
+                "code": "401",
+                "message": "login fail"
+            }
+            return make_response(jsonify(login_fail_resp_data), '401')
+
+        login_succ_resp_data = {
+            "code": "200",
+            "message": "login success",
+            "access_token": user_token_dic.get(username)
         }
-        return make_response(jsonify(login_fail_resp_data), '401')
 
-    login_succ_resp_data = {
-        "code": "AUTH200",
-        "message": "login success",
-        "access_token": user_token_dic.get(username)
-    }
-
-    return make_response(jsonify(login_succ_resp_data), '200')
+        return make_response(jsonify(login_succ_resp_data), '200')
+    except Exception:
+        return make_response(jsonify(server_internal_error_data), '500')
 
 
 @app.route('/api/v1/menu/list', methods=['GET'])
@@ -169,7 +177,7 @@ def list():
 
     if access_token is None:
         login_fail_resp_data = {
-            "code": "AUTH401",
+            "code": "401",
             "message": "Please login first."
         }
         return make_response(jsonify(login_fail_resp_data), '401')
@@ -177,7 +185,7 @@ def list():
     if access_token not in user_token_dic.values():
         print('access_token error, please re-login.')
         login_fail_resp_data = {
-            "code": "AUTH401",
+            "code": "401",
             "message": "Unknown user info, please re-login."
         }
         return make_response(jsonify(login_fail_resp_data), '401')
@@ -190,27 +198,95 @@ def list():
     return make_response(jsonify(menu_json), 200)
 
 
+@app.route("/api/v1/menu/confirm", methods=['POST'])
+def confirm():
+    """下单接口，输入参数格式：
+        header = {'access_token' : ''}
+        data:
+        {
+            "order_list": [
+                {
+                    "menu_nunber" : "01",
+                    "number" : 1
+                },
+                {
+                    "menu_nunber" : "03",
+                    "number" : 2
+                },
+                {
+                    "menu_nunber" : "04",
+                    "number" : 1
+                },
+                {
+                    "menu_nunber" : "05",
+                    "number" : 3
+                }
+            ]
+        }
+
+        :return
+        Success : http code 200
+        {
+            "code": "200",
+            "message": "Order success.",
+            "total": 7
+        }
+
+        not login : http code 401
+        {
+            "code": "401",
+            "message": "Please login first."
+        }
+    """
+    try:
+        access_token = request.headers.get("access_token")
+        if access_token is None:
+            login_fail_resp_data = {
+                "code": "401",
+                "message": "Please login first."
+            }
+            return make_response(jsonify(login_fail_resp_data), '401')
+
+        raw_data = request.get_data(as_text=True)
+        order_list = json.loads(raw_data).get("order_list")
+        total = 0
+        for order in order_list:
+            total = total + order.get("number")
+        order_success_resp_data = {
+            "code": "200",
+            "message": "Order success.",
+            "total": total
+        }
+
+        return make_response(jsonify(order_success_resp_data), '200')
+    except Exception:
+        return make_response(jsonify(server_internal_error_data), '500')
+
+
 @app.route("/api/v1/user/logout", methods=['POST'])
 def logout():
     """用户注销接口，输入参数格式：
         header = {'access_token' : ''}
     """
-    access_token = request.headers.get("access_token")
+    try:
+        access_token = request.headers.get("access_token")
 
-    if access_token not in user_token_dic.values():
-        print('access_token error, logout failed.')
-        login_fail_resp_data = {
-            "code": "AUTH401",
-            "message": "Unknown user info, logout fail."
+        if access_token not in user_token_dic.values():
+            print('access_token error, logout failed.')
+            login_fail_resp_data = {
+                "code": "401",
+                "message": "Unknown user info, logout fail."
+            }
+            return make_response(jsonify(login_fail_resp_data), '401')
+
+        login_succ_resp_data = {
+            "code": "200",
+            "message": "logout success"
         }
-        return make_response(jsonify(login_fail_resp_data), '401')
 
-    login_succ_resp_data = {
-        "code": "AUTH200",
-        "message": "logout success"
-    }
-
-    return make_response(jsonify(login_succ_resp_data), '200')
+        return make_response(jsonify(login_succ_resp_data), '200')
+    except Exception:
+        return make_response(jsonify(server_internal_error_data), '500')
 
 
 if __name__ == "__main__":
