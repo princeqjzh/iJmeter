@@ -1,4 +1,5 @@
 import json
+import time
 
 from flask import Flask, request, make_response, jsonify
 
@@ -124,8 +125,8 @@ server_internal_error_data = {
 def login():
     """登录接口，输入参数格式：
         "authRequest": {
-            "userName": "{{login_email}}",
-            "password": "{{login_pwd}}"
+            "userName": "[username]",
+            "password": "[password]"
         }
 
         :return
@@ -252,18 +253,19 @@ def confirm():
         total = 0
         for order in order_list:
             total = total + order.get("number")
+            time.sleep(0.6)
+
         order_success_resp_data = {
             "code": "200",
             "message": "Order success.",
             "total": total
         }
-
         return make_response(jsonify(order_success_resp_data), '200')
     except Exception:
         return make_response(jsonify(server_internal_error_data), '500')
 
 
-@app.route("/api/v1/user/logout", methods=['POST'])
+@app.route("/api/v1/user/logout", methods=['DELETE'])
 def logout():
     """用户注销接口，输入参数格式：
         header = {'access_token' : ''}
@@ -290,4 +292,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(port=9000, debug=True, host='0.0.0.0')
+    app.run(port=9090, debug=True, host='0.0.0.0')
