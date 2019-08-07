@@ -1,6 +1,5 @@
 .idea/
 *.iml
-*.csv
 .DS_Store
 target/
 *.swp
