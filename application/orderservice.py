@@ -253,7 +253,7 @@ def confirm():
         total = 0
         for order in order_list:
             total = total + order.get("number")
-            time.sleep(0.6)
+            time.sleep(0.3)
 
         order_success_resp_data = {
             "code": "200",
