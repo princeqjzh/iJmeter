@@ -13,7 +13,6 @@
 - 动态参数传递
 - 公共参数配置
 - CSV导入参数配置
-- BeanShell初探
 
 模拟接口服务的启动方法
 python3 <path>/orderservice.py
