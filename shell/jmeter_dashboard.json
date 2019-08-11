@@ -2814,6 +2814,6 @@
     ]
   },
   "timezone": "browser",
-  "title": "Apache JMeter Dashboard using Core InfluxdbBackendListenerClient",
+  "title": "JMeter Dashboard",
   "version": 4
 }
