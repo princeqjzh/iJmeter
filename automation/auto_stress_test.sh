@@ -23,7 +23,7 @@ killJMeter()
     fi
 }
 
-thread_number_array=(10 20 30 40 50)
+thread_number_array=(10 50 100 120 150 200 250)
 for num in "${thread_number_array[@]}"
 do
     # 生成对应压测线程的jmx文件
@@ -44,5 +44,7 @@ do
     nohup ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename} &
     sleep 65
     killJMeter
+    rm -f ${jmx_filename}
 done
+echo "自动化压测全部结束"
 
