@@ -23,7 +23,7 @@ killJMeter()
     fi
 }
 
-thread_number_array=(10 50 100 120 150 200 250)
+thread_number_array=(10 20 30 40 50)
 for num in "${thread_number_array[@]}"
 do
     # 生成对应压测线程的jmx文件
