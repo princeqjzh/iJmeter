@@ -17,6 +17,7 @@ user_token_dic = {
     , 'user10': '34467677a88fc7966807c26ced0972cc775be9e6983d4bfbd2a0981a4350dcfd'
 }
 menu_json = {
+    "code": "200",
     "breakfast": [
         {
             "menu_nunber": "01",
@@ -253,7 +254,7 @@ def confirm():
         total = 0
         for order in order_list:
             total = total + order.get("number")
-            time.sleep(0.3)
+            time.sleep(0.6)
 
         order_success_resp_data = {
             "code": "200",

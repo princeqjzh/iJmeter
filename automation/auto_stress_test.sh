@@ -13,7 +13,7 @@ cat /dev/null > nohup.out
 # 强制杀掉JMeter进程
 killJMeter()
 {
-    pid=`ps -ef|grep jmeter|grep java|awk '{print $2}'`
+    pid=`ps -ef|grep jmeter|grep java|grep ${jmx_filename}|awk '{print $2}'`
     echo "jmeter Id list :$pid"
     if [[ "$pid" = "" ]]
     then
