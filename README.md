@@ -22,3 +22,4 @@ python3 ${path}/orderservice.py
 - 运行之前需要在本机配置环境变量 jmeter_path，将其指向jmeter安装的根目录
     export jmeter_path=/jmeter_root_path/
 - 自动化压测会在运行时依次、自动执行并发压测，并发数 10 20 30 40 50， 每组压测60秒
+- 运行代码的时候请先确保当前路径处于automation目录下，然后运行 ./auto_stress_test.sh
