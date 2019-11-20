@@ -1,7 +1,9 @@
 import json
+import os
 import time
 
-from flask import Flask, request, make_response, jsonify
+from flask import Flask, request, make_response, jsonify, render_template
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 user_token_dic = {
@@ -120,6 +122,11 @@ server_internal_error_data = {
     "code": "500",
     "message": "Server internal error."
 }
+
+UPLOAD_FOLDER = 'upload'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+basedir = os.path.abspath(os.path.dirname(__file__))
+ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'xls', 'JPG', 'PNG', 'xlsx', 'gif', 'GIF'])
 
 
 @app.route("/api/v1/user/login", methods=['POST'])
@@ -290,6 +297,39 @@ def logout():
         return make_response(jsonify(login_succ_resp_data), '200')
     except Exception:
         return make_response(jsonify(server_internal_error_data), '500')
+
+
+# suffix validation
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+# upload file testing page
+@app.route('/', methods=['GET'], strict_slashes=False)
+def indexpage():
+    return render_template('index.html')
+
+
+# upload file
+@app.route('/uploadfile', methods=['POST'], strict_slashes=False)
+def api_upload():
+    file_dir = os.path.join(basedir, app.config['UPLOAD_FOLDER'])
+    if not os.path.exists(file_dir):
+        os.makedirs(file_dir)
+    f = request.files['file']  # get the file name
+
+    if f and allowed_file(f.filename):  # Verify the file type
+        fname = secure_filename(f.filename)
+        ext = fname.rsplit('.', 1)[1]
+        unix_time = time.time()
+        new_filename = str(unix_time) + '.' + ext
+        f.save(os.path.join(file_dir, new_filename))
+        print(f'{f.filename} upload success!')
+        return jsonify({'code': 200, 'result': 'success', 'msg': f'file {f.filename} upload success'})
+    else:
+        print(f'{f.filename} upload failed!')
+        return jsonify(
+            {'code': 500, 'result': 'failed', 'msg': f'file {f.filename} upload fail, please check the file type'})
 
 
 if __name__ == "__main__":

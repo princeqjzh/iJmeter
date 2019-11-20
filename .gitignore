@@ -22,3 +22,4 @@ myTestSpring/notify-subscription.log.*
 *.txt
 automation/PreClassMenu_auto_*.jmx
 automation/test_*.jtl
+application/upload/*.*
