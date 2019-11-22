@@ -126,7 +126,7 @@ server_internal_error_data = {
 UPLOAD_FOLDER = 'upload'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 basedir = os.path.abspath(os.path.dirname(__file__))
-ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'xls', 'JPG', 'PNG', 'xlsx', 'gif', 'GIF'])
+ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'xls', 'JPG', 'PNG', 'xlsx', 'gif', 'GIF', 'doc', 'docx', 'ppt', 'pptx'])
 
 
 @app.route("/api/v1/user/login", methods=['POST'])
