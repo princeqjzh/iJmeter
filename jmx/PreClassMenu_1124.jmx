@@ -157,7 +157,7 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
 	&quot;authRequest&quot;: {&#xd;
-	    &quot;userName&quot;: &quot;${username}&quot;,&#xd;
+	    &quot;userName&quot;: &quot;${username}1&quot;,&#xd;
 	    &quot;password&quot;: &quot;${password}&quot;&#xd;
 	}&#xd;
 }</stringProp>
@@ -204,6 +204,15 @@
 
 vars.put(&quot;id&quot;, Tools.createIdcard());</stringProp>
           </BeanShellPostProcessor>
+          <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
+            <stringProp name="JSON_PATH">$.message</stringProp>
+            <stringProp name="EXPECTED_VALUE"></stringProp>
+            <boolProp name="JSONVALIDATION">false</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">false</boolProp>
+          </JSONPathAssertion>
           <hashTree/>
         </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="false">
