@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+# 压测脚本模板中设定的压测时间应为60秒
 export jmx_template="PreClassMenu_auto"
 export suffix=".jmx"
 export jmx_template_filename="${jmx_template}${suffix}"
@@ -23,7 +25,8 @@ killJMeter()
     fi
 }
 
-thread_number_array=(10 20 30 40 50)
+# 压测并发数列表
+thread_number_array=(10 20 30 40 50 100)
 for num in "${thread_number_array[@]}"
 do
     # 生成对应压测线程的jmx文件
