@@ -19,7 +19,7 @@
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">thread_num</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">15</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">60</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -235,7 +235,7 @@
     &quot;order_list&quot;: [&#xd;
         {&#xd;
             &quot;menu_nunber&quot; : &quot;01&quot;,&#xd;
-            &quot;number&quot; : 1&#xd;
+            &quot;number&quot; : 2&#xd;
         },&#xd;
         {&#xd;
             &quot;menu_nunber&quot; : &quot;03&quot;,&#xd;
@@ -243,7 +243,7 @@
         },&#xd;
         {&#xd;
             &quot;menu_nunber&quot; : &quot;04&quot;,&#xd;
-            &quot;number&quot; : 1&#xd;
+            &quot;number&quot; : 2&#xd;
         },&#xd;
         {&#xd;
             &quot;menu_nunber&quot; : &quot;05&quot;,&#xd;
@@ -274,9 +274,18 @@
             <stringProp name="ConstantTimer.delay">${wait}</stringProp>
           </ConstantTimer>
           <hashTree/>
-          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion - Message" enabled="true">
             <stringProp name="JSON_PATH">$.message</stringProp>
             <stringProp name="EXPECTED_VALUE">Order success.</stringProp>
+            <boolProp name="JSONVALIDATION">true</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">true</boolProp>
+          </JSONPathAssertion>
+          <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion - Total" enabled="true">
+            <stringProp name="JSON_PATH">$.total</stringProp>
+            <stringProp name="EXPECTED_VALUE">9</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
             <boolProp name="INVERT">false</boolProp>
