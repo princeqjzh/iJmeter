@@ -26,14 +26,17 @@ killJMeter()
 }
 
 # 压测并发数列表
-thread_number_array=(10 20 30 40 50 100)
+thread_number_array=(10 20 30)
 for num in "${thread_number_array[@]}"
 do
     # 生成对应压测线程的jmx文件
     export jmx_filename="${jmx_template}_${num}${suffix}"
     export jtl_filename="test_${num}.jtl"
+    export web_report_path_name="web_${num}"
 
     rm -f ${jmx_filename} ${jtl_filename}
+    rm -rf ${web_report_path_name}
+
     cp ${jmx_template_filename} ${jmx_filename}
     echo "生成jmx压测脚本 ${jmx_filename}"
 
@@ -44,7 +47,7 @@ do
     fi
 
     # JMeter 静默压测
-    nohup ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename} &
+    nohup ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename} -e -o ${web_report_path_name} &
     sleep 65
     killJMeter
     rm -f ${jmx_filename}
