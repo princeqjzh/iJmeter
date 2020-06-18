@@ -48,7 +48,7 @@ do
 
     # JMeter 静默压测
     nohup ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename} -e -o ${web_report_path_name} &
-    sleep 65
+    sleep 80
     killJMeter
     rm -f ${jmx_filename}
 done
