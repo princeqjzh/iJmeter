@@ -9,24 +9,10 @@ export os_type=`uname`
 # 需要在系统变量中定义jmeter根目录的位置，如下
 # export jmeter_path="/your jmeter path/"
 
-# 清空nohup.out
-cat /dev/null > nohup.out
-
-# 强制杀掉JMeter进程
-killJMeter()
-{
-    pid=`ps -ef|grep jmeter|grep java|grep ${jmx_filename}|awk '{print $2}'`
-    echo "jmeter Id list :$pid"
-    if [[ "$pid" = "" ]]
-    then
-      echo "no jmeter pid alive"
-    else
-      kill -9 $pid
-    fi
-}
+echo "自动化压测开始"
 
 # 压测并发数列表
-thread_number_array=(2)
+thread_number_array=(10 20 30 40 50)
 for num in "${thread_number_array[@]}"
 do
     # 生成对应压测线程的jmx文件
@@ -47,10 +33,12 @@ do
     fi
 
     # JMeter 静默压测
-    nohup ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename} -e -o ${web_report_path_name} &
-    sleep 80
-    killJMeter
-    rm -f ${jmx_filename}
+    ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename}
+
+    # 生成Web压测报告
+    ${jmeter_path}/bin/jmeter -g ${jtl_filename} -e -o ${web_report_path_name}
+
+    rm -f ${jmx_filename} ${jtl_filename}
 done
 echo "自动化压测全部结束"
 
