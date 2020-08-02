@@ -12,7 +12,7 @@ export os_type=`uname`
 echo "自动化压测开始"
 
 # 压测并发数列表
-thread_number_array=(10)
+thread_number_array=(10 20 30 40)
 for num in "${thread_number_array[@]}"
 do
     # 生成对应压测线程的jmx文件
