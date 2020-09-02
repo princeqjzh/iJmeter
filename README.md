@@ -15,6 +15,7 @@
 - CSV导入参数配置
 
 2. 模拟接口服务的启动方法
+路径：iJmeter/application
 python3 ${path}/orderservice.py
 
 3. 自动化压测
