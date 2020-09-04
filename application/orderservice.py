@@ -334,3 +334,7 @@ def api_upload():
 
 if __name__ == "__main__":
     app.run(port=9091, debug=True, host='0.0.0.0')
+
+    # Demo for https, password = 1234
+    # app.run('0.0.0.0', debug=True, port=8100, ssl_context=(f'{os.path.abspath(os.curdir)}/cert_files/server.crt'
+    #                                                        , f'{os.path.abspath(os.curdir)}/cert_files/server.key'))
