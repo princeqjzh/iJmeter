@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <object name="a">
+        <field name="status" value="S"/>
+    </object>
+    <object name="b">
+        <field name="total" value="00000000000000000000"/>
+    </object>
+    <object name="c">
+        <field name="orderId" value="aa"/>
+        <field name="accNO" value="bb"/>
+        <field name="amount" value="cc"/>
+        <field name="respMsg" value="处理成功"/>
+    </object>
+</root>
