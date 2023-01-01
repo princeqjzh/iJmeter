@@ -132,9 +132,11 @@ ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'xls', 'JPG', 'PNG', 'xlsx', 'gif
 @app.route("/api/v1/user/login", methods=['POST'])
 def login():
     """登录接口，输入参数格式：
-        "authRequest": {
-            "userName": "[username]",
-            "password": "[password]"
+        {
+            "authRequest": {
+                "userName": "[username]",
+                "password": "[password]"
+            }
         }
 
         :return
@@ -172,7 +174,8 @@ def login():
         }
 
         return make_response(jsonify(login_succ_resp_data), '200')
-    except Exception:
+    except Exception as ex:
+        print(ex.msg)
         return make_response(jsonify(server_internal_error_data), '500')
 
 
@@ -336,5 +339,5 @@ if __name__ == "__main__":
     app.run(port=9091, debug=True, host='0.0.0.0')
 
     # Demo for https, password = 1234
-    # app.run('0.0.0.0', debug=True, port=8100, ssl_context=(f'{os.path.abspath(os.curdir)}/cert_files/server.crt'
+    # app.run('0.0.0.0', debug=True, port=9091, ssl_context=(f'{os.path.abspath(os.curdir)}/cert_files/server.crt'
     #                                                        , f'{os.path.abspath(os.curdir)}/cert_files/server.key'))
