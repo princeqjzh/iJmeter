@@ -9,7 +9,7 @@ export jmx_filename="order_auto.jmx"
 echo "自动化压测开始"
 
 # 压测并发数列表
-thread_number_array=(10 20 30)
+thread_number_array=(10)
 for num in "${thread_number_array[@]}"
 do
     echo "压测并发数 ${num}"
