@@ -213,7 +213,7 @@ def list():
 @app.route("/api/v1/menu/confirm", methods=['POST'])
 def confirm():
     """下单接口，输入参数格式：
-        header = {'access_token' : ''}
+        header = {'accesstoken' : ''}
         data:
         {
             "order_list": [
@@ -279,7 +279,7 @@ def confirm():
 @app.route("/api/v1/user/logout", methods=['DELETE'])
 def logout():
     """用户注销接口，输入参数格式：
-        header = {'access_token' : ''}
+        header = {'accesstoken' : ''}
     """
     try:
         access_token = request.headers.get("accesstoken")
