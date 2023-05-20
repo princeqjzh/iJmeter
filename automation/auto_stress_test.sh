@@ -8,9 +8,10 @@ export jmx_filename="order_auto.jmx"
 
 echo "自动化压测开始"
 
-rm -rf webreport
-mkdir -p webreport
-echo "" > webreport/index.html
+#rm -rf webreport
+#mkdir -p webreport
+rm -f index.html
+echo "" > index.html
 
 
 # 压测并发数列表
@@ -28,7 +29,7 @@ do
     # JMeter 静默压测 + 生成html压测报告
     ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename}  -Jthread=${num} -e -o ${web_report_path_name}
     echo "结束压测并发数 ${num}"
-    echo "<a href='automation/${web_report_path_name}'>${web_report_path_name}</a><br><br>" >> webreport/index.html
+    echo "<a href='${web_report_path_name}'>${web_report_path_name}</a><br><br>" >> index.html
 done
 echo "自动化压测全部结束"
 
