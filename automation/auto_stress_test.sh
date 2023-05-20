@@ -27,7 +27,7 @@ do
     rm -rf ${web_report_path_name}
 
     # JMeter 静默压测 + 生成html压测报告
-    ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename}  -Jthread=${num} -e -o ${web_report_path_name}
+    ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename}  -Jthread=${num} -Jduration=$duration -e -o ${web_report_path_name}
     echo "结束压测并发数 ${num}"
     echo "<a href='${web_report_path_name}'>${web_report_path_name}</a><br><br>" >> index.html
 done
