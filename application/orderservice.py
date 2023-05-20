@@ -185,7 +185,7 @@ def list():
 
     :return: 菜单列表
     """
-    access_token = request.headers.get("access_token")
+    access_token = request.headers.get("accesstoken")
 
     if access_token is None:
         login_fail_resp_data = {
@@ -251,7 +251,7 @@ def confirm():
         }
     """
     try:
-        access_token = request.headers.get("access_token")
+        access_token = request.headers.get("accesstoken")
         if access_token is None:
             login_fail_resp_data = {
                 "code": "401",
@@ -282,7 +282,7 @@ def logout():
         header = {'access_token' : ''}
     """
     try:
-        access_token = request.headers.get("access_token")
+        access_token = request.headers.get("accesstoken")
 
         if access_token not in user_token_dic.values():
             print('access_token error, logout failed.')
