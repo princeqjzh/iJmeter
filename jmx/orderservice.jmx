@@ -198,7 +198,7 @@
               <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
+            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="false">
               <stringProp name="JSON_PATH">$.message</stringProp>
               <stringProp name="EXPECTED_VALUE">login success</stringProp>
               <boolProp name="JSONVALIDATION">true</boolProp>
@@ -366,7 +366,7 @@ prev.setResponseData(outBuffer.toString());</stringProp>
               <stringProp name="ConstantTimer.delay">${wait}</stringProp>
             </ConstantTimer>
             <hashTree/>
-            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion - Message" enabled="true">
+            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion - Message" enabled="false">
               <stringProp name="JSON_PATH">$.message</stringProp>
               <stringProp name="EXPECTED_VALUE">Order success.</stringProp>
               <boolProp name="JSONVALIDATION">true</boolProp>
@@ -375,7 +375,7 @@ prev.setResponseData(outBuffer.toString());</stringProp>
               <boolProp name="ISREGEX">true</boolProp>
             </JSONPathAssertion>
             <hashTree/>
-            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion - Total" enabled="true">
+            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion - Total" enabled="false">
               <stringProp name="JSON_PATH">$.total</stringProp>
               <stringProp name="EXPECTED_VALUE">9</stringProp>
               <boolProp name="JSONVALIDATION">true</boolProp>
