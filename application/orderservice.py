@@ -4,6 +4,7 @@ import time
 
 from flask import Flask, request, make_response, jsonify, render_template
 from werkzeug.utils import secure_filename
+from skywalking import agent, config
 
 app = Flask(__name__)
 user_token_dic = {
@@ -127,6 +128,16 @@ UPLOAD_FOLDER = 'upload'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 basedir = os.path.abspath(os.path.dirname(__file__))
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'xls', 'JPG', 'PNG', 'xlsx', 'gif', 'GIF', 'doc', 'docx', 'ppt', 'pptx'])
+
+enable_agent = True if os.getenv('enable_agent', 'false') == 'true' else False
+if enable_agent:
+    print('Start skywalking agent for monitoring.')
+    config.init(
+        agent_collector_backend_services="localhost:11800",
+        agent_name="python-order-service",
+        agent_instance_name="python-order-service-instance"
+    )
+    agent.start()
 
 
 @app.route("/api/v1/user/login", methods=['POST'])
