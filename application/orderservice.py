@@ -4,7 +4,7 @@ import time
 
 from flask import Flask, request, make_response, jsonify, render_template
 from werkzeug.utils import secure_filename
-from skywalking import agent, config
+# from skywalking import agent, config
 
 app = Flask(__name__)
 user_token_dic = {
