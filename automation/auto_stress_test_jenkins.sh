@@ -13,6 +13,8 @@ rm -f index.html
 echo "" > index.html
 
 
+rm -f *.jtl
+rm -rf web_*
 # 压测并发数列表
 thread_number_array=($thread_number_list)
 for num in "${thread_number_array[@]}"
@@ -21,9 +23,6 @@ do
     # 定义jtl结果文件名与压测报告路径
     export jtl_filename="test_${num}.jtl"
     export web_report_path_name="web_${num}"
-
-    rm -f *.jtl
-    rm -rf web_*
 
     # JMeter 静默压测 + 生成html压测报告
     ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename}  -Jthread=${num} -Jduration=${duration} -e -o ${web_report_path_name}
