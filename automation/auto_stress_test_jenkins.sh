@@ -22,8 +22,8 @@ do
     export jtl_filename="test_${num}.jtl"
     export web_report_path_name="web_${num}"
 
-    rm -f ${jtl_filename}
-    rm -rf ${web_report_path_name}
+    rm -f *.jtl
+    rm -rf web_*
 
     # JMeter 静默压测 + 生成html压测报告
     ${jmeter_path}/bin/jmeter -n -t ${jmx_filename} -l ${jtl_filename}  -Jthread=${num} -Jduration=${duration} -e -o ${web_report_path_name}
