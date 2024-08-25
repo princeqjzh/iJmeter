@@ -18,7 +18,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__P(thread, 20)}</stringProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(thread,20)}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">20</stringProp>
@@ -103,7 +103,7 @@
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
           <stringProp name="delimiter">,</stringProp>
           <stringProp name="fileEncoding">UTF-8</stringProp>
-          <stringProp name="filename">/Users/jizhiqian/workspace/studio/iJmeter/automation/users.csv</stringProp>
+          <stringProp name="filename">./users.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">true</boolProp>
           <boolProp name="recycle">true</boolProp>
@@ -150,9 +150,46 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
+        <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="error log writer" enabled="true">
+          <boolProp name="ResultCollector.error_logging">true</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>true</responseData>
+              <samplerData>false</samplerData>
+              <xml>true</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>true</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">./error_log.xml</stringProp>
+        </ResultCollector>
+        <hashTree/>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller" enabled="true">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
-          <boolProp name="TransactionController.parent">false</boolProp>
+          <boolProp name="TransactionController.parent">true</boolProp>
         </TransactionController>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1. 用户登录" enabled="true">
@@ -215,6 +252,87 @@
             <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="false">
               <stringProp name="ConstantTimer.delay">${wait}</stringProp>
             </ConstantTimer>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">String s2 = new String(prev.getResponseData(), &quot;UTF-8&quot;);
+//---------------一下步骤为转码过程---------------
+char aChar;
+int len = s2.length();
+StringBuffer outBuffer = new StringBuffer(len);
+for (int x = 0; x &lt; len;)
+{
+    aChar = s2.charAt(x++);
+    if (aChar == &apos;\\&apos;) {
+        aChar = s2.charAt(x++);
+        if (aChar == &apos;u&apos;) {
+            int
+            value = 0;
+            for (int i = 0;
+            i &lt; 4;
+            i++
+        )
+            {
+                aChar = s2.charAt(x++);
+                switch (aChar) {
+                    case&apos;0&apos;:
+                    case&apos;1&apos;:
+                    case&apos;2&apos;:
+                    case&apos;3&apos;:
+                    case&apos;4&apos;:
+                    case&apos;5&apos;:
+                    case&apos;6&apos;:
+                    case&apos;7&apos;:
+                    case&apos;8&apos;:
+                    case&apos;9&apos;:
+                        value = (value &lt;&lt; 4) + aChar - &apos;0&apos;;
+                        break;
+                    case&apos;a&apos;:
+                    case&apos;b&apos;:
+                    case&apos;c&apos;:
+                    case&apos;d&apos;:
+                    case&apos;e&apos;:
+                    case&apos;f&apos;:
+                        value = (value &lt;&lt; 4) + 10 + aChar - &apos;a&apos;;
+                        break;
+                    case&apos;A&apos;:
+                    case&apos;B&apos;:
+                    case&apos;C&apos;:
+                    case&apos;D&apos;:
+                    case&apos;E&apos;:
+                    case&apos;F&apos;:
+                        value = (value &lt;&lt; 4) + 10 + aChar - &apos;A&apos;;
+                        break;
+                    default:
+                        throw new IllegalArgumentException(
+                            &quot;Malformed   \\uxxxx  encoding.&quot;);
+                }
+            }
+            outBuffer.append((char)
+            value
+        )
+            ;
+        } else {
+            if (aChar == &apos;t&apos;)
+                aChar = &apos;\t&apos;;
+            else if (aChar == &apos;r&apos;)
+                aChar = &apos;\r&apos;;
+            else if (aChar == &apos;n&apos;)
+                aChar = &apos;\n&apos;;
+            else if (aChar == &apos;f&apos;)
+                aChar = &apos;\f&apos;;
+            outBuffer.append(aChar);
+        }
+    } else
+        outBuffer.append(aChar);
+}
+//-----------------以上内容为转码过程---------------------------
+//将转成中文的响应结果在查看结果树中显示
+
+prev.setResponseData(outBuffer.toString());</stringProp>
+            </BeanShellPostProcessor>
             <hashTree/>
           </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="3. 订单确认" enabled="true">
